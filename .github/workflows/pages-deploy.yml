@@ -4,6 +4,21 @@ on:
   push:
     branches: [main]
   workflow_dispatch: {}
+  schedule:
+    # Confirmed live 2026-08-05: pushes made by supply-check/chainqa-check/
+    # scanner-check's "Commit results" step use the default GITHUB_TOKEN,
+    # and GitHub deliberately does NOT let GITHUB_TOKEN-authored pushes
+    # trigger other workflows (anti-loop protection) -- so `on: push`
+    # above only fires for human-authored commits, never for the bot's
+    # scheduled data updates. Without this schedule, the live site would
+    # silently freeze at whatever was true at the last human push while
+    # the repo itself kept accumulating real history underneath it --
+    # exactly the failure mode caught live before announcing this
+    # publicly (repo had a 4th supply run committed; the site was still
+    # only showing 3). Every 30 min is frequent enough that propagation
+    # lag stays small next to how often the underlying checks actually
+    # run (3h/6h/24h), without redeploying on every commit.
+    - cron: "*/30 * * * *"
 
 permissions:
   contents: read
