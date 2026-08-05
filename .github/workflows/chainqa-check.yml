@@ -1,0 +1,40 @@
+name: Chain Infrastructure QA Check
+
+on:
+  schedule:
+    # Every 3 hours -- tighter than supply-check's 6h since RPC/indexing
+    # health is the kind of thing worth noticing sooner than a supply
+    # figure drifting.
+    - cron: "42 */3 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: chainqa-check
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run chain QA check -- Robinhood Chain
+        run: node chainqa/check.mjs robinhood
+
+      - name: Commit results
+        run: |
+          git config user.name "fot-conformance-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add chainqa/history
+          git diff --cached --quiet && echo "no changes" && exit 0
+          git commit -m "chainqa check: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push

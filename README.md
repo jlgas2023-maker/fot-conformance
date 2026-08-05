@@ -6,10 +6,12 @@ actually match the chain, and monitors the chain's own infrastructure —
 all static-hosted, all reproducible by a third party from committed JSON,
 none of it launches, trades, or holds anything.
 
-**Live:** [supply conformance](supply/index.html) and the
-[token dashboard](dashboard/index.html) are both built. The other two
-deliverables below are scaffolded but not yet implemented — see each
-one's own README.
+**Live:** [supply conformance](supply/index.html), the
+[token dashboard](dashboard/index.html), and [chain infrastructure
+QA](chainqa/index.html) (RPC latency, indexing lag, verified-source
+coverage — router compatibility not implemented, see its README) are all
+built. The FOT taxonomy scanner is scaffolded but not yet implemented —
+see its own README, it's the genuinely hard one.
 
 Full rationale, hard constraints, and the exact methodology behind every
 check: **[docs/methodology.md](docs/methodology.md)**.
@@ -21,7 +23,7 @@ check: **[docs/methodology.md](docs/methodology.md)**.
 | 2. Supply conformance checker | **Built.** Live-caught GeckoTerminal reporting TACO's genesis supply as current (+51.5% overstatement) on its first real run — see `supply/history/taco/`. |
 | 3. Generic token dashboard | **Built.** `taco-burn/dist/stats.html` ported into a config-driven template (`dashboard/index.html` + `app.js`) — verified against real chain data, caught and fixed a bad `stablePool` config value (token address vs. pool address) before shipping. |
 | 1. FOT taxonomy scanner | Scaffolded (`scanner/README.md`, verdict schema). The hard one — static source/bytecode analysis, then `eth_call`-only dynamic simulation. Not yet done. |
-| 4. Chain infrastructure QA monitor | Scaffolded (`chainqa/README.md`). Depends on the scheduling pattern Deliverable 2 already established. Not yet done. |
+| 4. Chain infrastructure QA monitor | **Mostly built.** RPC latency, Blockscout indexing lag, and verified-source coverage (all-time, see `chainqa/README.md`) are live. Router compatibility matrix explicitly not implemented — no known router/aggregator address on this chain to test against without fabricating a fixture. |
 
 ## Reference fixture
 

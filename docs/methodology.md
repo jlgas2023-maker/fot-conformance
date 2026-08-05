@@ -124,16 +124,34 @@ address, which reverts on every `eth_call` since a plain ERC20 doesn't
 implement pair functions. See `dashboard/README.md` for the full account
 and the fix.
 
-## Deliverables 1 and 4 — not yet implemented
+## Deliverable 4: chain infrastructure QA monitor (mostly built, live)
 
-See each directory's own `README.md` for the planned check list and
-rationale:
-- [`scanner/README.md`](../scanner/README.md) — FOT taxonomy scanner,
-  static + `eth_call`-only dynamic analysis, verdict schema at
-  `scanner/verdict.schema.json`.
-- [`chainqa/README.md`](../chainqa/README.md) — chain infrastructure QA
-  monitor, same scheduled-Action + committed-history pattern as
-  Deliverable 2.
+Same scheduled-Action + committed-history pattern as Deliverable 2. Three
+checks are live against real endpoints: RPC latency (`eth_blockNumber`
+round-trip), Blockscout indexing lag (head block vs. `/api/v2/blocks`'
+latest item), and verified-source coverage. That last one is reported as
+an **all-time** figure, not "recently deployed" as the original brief
+phrased it — confirmed live that Blockscout's `new_verified_smart_
+contracts_24h` counter tracks verification *events* in the last 24h for
+contracts of any age, not verifications of contracts deployed in that
+window, so it can't be combined with `new_smart_contracts_24h` to derive
+that more specific figure without per-contract creation-block lookups
+(not implemented — expensive at this chain's deployment rate). See
+`chainqa/README.md` for the full account.
+
+The router compatibility matrix is explicitly NOT implemented: it needs
+known router/aggregator addresses on this chain to test against, and none
+were found in this repo's own deploy history (TACO's LP was added by
+calling the pair contract directly, not through a router). Every committed
+snapshot says so plainly (`routerCompatibility: {implemented: false,
+reason: ...}`) rather than omitting the field silently or faking a result.
+
+## Deliverable 1 — not yet implemented
+
+See [`scanner/README.md`](../scanner/README.md) for the full planned check
+list and verdict schema (`scanner/verdict.schema.json`). This is the
+genuinely hard deliverable — static source/bytecode analysis plus
+`eth_call`-only dynamic simulation — and the one still fully stubbed.
 
 ## Non-goals
 
