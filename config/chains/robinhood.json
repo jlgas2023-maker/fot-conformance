@@ -11,5 +11,14 @@
   "stablecoin": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
   "stableSymbol": "USDG",
   "uniswapV2Factory": "0x8bceaa40b9acdfaedf85adf4ff01f5ad6517937f",
+  "routerCandidates": [
+    "0xA5deC66ECa62AE363dC47965bB790C3B8870b6B6",
+    "0x0c0C17Bb0878B0Dc665B489E66D7441eFF608423",
+    "0x23e1aF39674F172685e84B3FFBFb43441a7A1096",
+    "0x23fB6Daaa17d62E010d341BB53916666ffB1BdbE",
+    "0xA727848C74249d11e2e82368A4afc00DFdf4Efba",
+    "0xbD8307765a5932090F7669e264d38F1666e8FF14"
+  ],
+  "_routerCandidatesNote": "Verified 'Router'-named contracts found via Blockscout's contract search 2026-08-05 (see scanner/README.md). None of these share TACO's own pool factory (uniswapV2Factory above) -- confirmed live each one's factory() returns a DIFFERENT address, meaning none can quote or trade TACO's specific pool at all. That's a real, useful finding (this chain's DEX liquidity is fragmented across incompatible factory deployments), not a bug in this checker -- see scanner/README.md's Known limitation section. 0xAEf7A922931848d2e731D5914f428b4E851d1Ad5 was found in the same search but omitted here: its factory() call reverts outright (not just a mismatched address), suggesting it isn't a standard UniswapV2Router02.",
   "_note": "Went public mainnet 2026-07-01. eth_getLogs range caps and rate limits are unconfirmed at scale -- supply/check.mjs and scanner code must chunk defensively and treat a cap/limit response as a normal condition, not an error."
 }

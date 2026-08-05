@@ -6,12 +6,12 @@ actually match the chain, and monitors the chain's own infrastructure —
 all static-hosted, all reproducible by a third party from committed JSON,
 none of it launches, trades, or holds anything.
 
-**Live:** [supply conformance](supply/index.html), the
-[token dashboard](dashboard/index.html), and [chain infrastructure
-QA](chainqa/index.html) (RPC latency, indexing lag, verified-source
-coverage — router compatibility not implemented, see its README) are all
-built. The FOT taxonomy scanner is scaffolded but not yet implemented —
-see its own README, it's the genuinely hard one.
+**Live:** all four deliverables are built. [Supply
+conformance](supply/index.html), the [token dashboard](dashboard/index.html),
+[chain infrastructure QA](chainqa/index.html), and the [FOT taxonomy
+scanner](scanner/index.html) — the last one validated against exactly one
+real fixture (TACO) so far; see its README for what that means and what's
+still needed to validate the `suspect` side of the classifier.
 
 Full rationale, hard constraints, and the exact methodology behind every
 check: **[docs/methodology.md](docs/methodology.md)**.
@@ -22,7 +22,7 @@ check: **[docs/methodology.md](docs/methodology.md)**.
 |---|---|
 | 2. Supply conformance checker | **Built.** Live-caught GeckoTerminal reporting TACO's genesis supply as current (+51.5% overstatement) on its first real run — see `supply/history/taco/`. |
 | 3. Generic token dashboard | **Built.** `taco-burn/dist/stats.html` ported into a config-driven template (`dashboard/index.html` + `app.js`) — verified against real chain data, caught and fixed a bad `stablePool` config value (token address vs. pool address) before shipping. |
-| 1. FOT taxonomy scanner | Scaffolded (`scanner/README.md`, verdict schema). The hard one — static source/bytecode analysis, then `eth_call`-only dynamic simulation. Not yet done. |
+| 1. FOT taxonomy scanner | **Built, validated against one fixture.** Regex-based static analysis (caught and fixed two real bugs by testing against TACO's actual source) plus `eth_call`-only dynamic simulation (buy/sell/transfer, all impersonated with zero signatures or state overrides). Correctly classifies TACO as `declared_fot`. No `suspect` fixture exists yet to validate the other direction — see `scanner/README.md`. |
 | 4. Chain infrastructure QA monitor | **Mostly built.** RPC latency, Blockscout indexing lag, and verified-source coverage (all-time, see `chainqa/README.md`) are live. Router compatibility matrix explicitly not implemented — no known router/aggregator address on this chain to test against without fabricating a fixture. |
 
 ## Reference fixture

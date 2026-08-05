@@ -1,0 +1,243 @@
+{
+  "token": "0x9e5e02F5C9ea48931d4e8f488089103e93F925fF",
+  "symbol": "TACO",
+  "chain": "Robinhood Chain",
+  "checkedAt": "2026-08-05T13:44:04.911Z",
+  "verdict": "declared_fot",
+  "verdictReason": [
+    "fee_logic_present_no_suspect_signals"
+  ],
+  "checks": [
+    {
+      "id": "owner_is_zero",
+      "kind": "dynamic",
+      "result": true,
+      "evidence": {
+        "ownerAddress": "0x0000000000000000000000000000000000000000",
+        "selector": "0x8da5cb5b"
+      }
+    },
+    {
+      "id": "fee_logic_present",
+      "kind": "static",
+      "result": true,
+      "evidence": {
+        "sourceLine": 107,
+        "matchedText": "v * SELL_BURN_BPS) / 10_000",
+        "inFunction": "_xfer"
+      }
+    },
+    {
+      "id": "fee_rate_mutability",
+      "kind": "static",
+      "result": "constant",
+      "evidence": {
+        "sourceLine": 41,
+        "matchedText": "uint256 public constant SELL_BURN_BPS",
+        "setterSelector": null
+      }
+    },
+    {
+      "id": "privileged_address_check",
+      "kind": "static",
+      "result": false,
+      "evidence": {}
+    },
+    {
+      "id": "non_allowance_mapping_read",
+      "kind": "static",
+      "result": false,
+      "evidence": {
+        "allowanceMappingName": "allowance",
+        "otherMappingsRead": [],
+        "note": "transferFrom only reads the declared allowance mapping"
+      }
+    },
+    {
+      "id": "allowance_bypass",
+      "kind": "static",
+      "result": false,
+      "evidence": {
+        "allConditions": [
+          "a != type(uint256).max"
+        ],
+        "guardingAllowanceCheck": [
+          "a != type(uint256).max"
+        ],
+        "nonStandardConditions": [],
+        "note": "conditional matches the standard infinite-approval idiom only -- not a bypass"
+      }
+    },
+    {
+      "id": "mint_function",
+      "kind": "static",
+      "result": false,
+      "evidence": {}
+    },
+    {
+      "id": "blacklist_function",
+      "kind": "static",
+      "result": false,
+      "evidence": {}
+    },
+    {
+      "id": "pause_function",
+      "kind": "static",
+      "result": false,
+      "evidence": {}
+    },
+    {
+      "id": "asymmetric_buy_sell",
+      "kind": "static",
+      "result": true,
+      "evidence": {
+        "matchedCondition": "isPair[to] && !isPair[f]",
+        "appliesOnSellPath": true,
+        "appliesOnBuyPath": false,
+        "toSideOnlyAsNegatedExclusion": false,
+        "fromSideOnlyAsNegatedExclusion": true,
+        "note": "fee applies on sell (transfer INTO a pair) only"
+      }
+    },
+    {
+      "id": "sim_buy",
+      "kind": "dynamic",
+      "result": true,
+      "evidence": {
+        "txSimulated": {
+          "from": "0xabe48f7f2B1e81FAE5c49DfA85Cfc9F1EEE49591",
+          "to": "0x0000000000000000000000000000000000dEcaf1",
+          "amountRaw": "1000000000000000",
+          "ok": true,
+          "revertReason": null
+        },
+        "expectedAmount": "1000000000000000",
+        "actualAmount": null,
+        "selector": "0xa9059cbb"
+      }
+    },
+    {
+      "id": "sim_wallet_transfer",
+      "kind": "dynamic",
+      "result": true,
+      "evidence": {
+        "txSimulated": {
+          "from": "0xabe48f7f2B1e81FAE5c49DfA85Cfc9F1EEE49591",
+          "to": "0x0000000000000000000000000000000000dEcaf2",
+          "amountRaw": "1000000000000000",
+          "ok": true,
+          "revertReason": null
+        },
+        "expectedAmount": "1000000000000000",
+        "actualAmount": null,
+        "selector": "0xa9059cbb"
+      }
+    },
+    {
+      "id": "sim_sell",
+      "kind": "dynamic",
+      "result": true,
+      "evidence": {
+        "txSimulated": {
+          "from": "0xfB75AAD253dA424A2093691bD2740a129d0bA12e",
+          "to": "0xabe48f7f2B1e81FAE5c49DfA85Cfc9F1EEE49591",
+          "amountRaw": "1000000000000000",
+          "ok": true,
+          "revertReason": null
+        },
+        "expectedAmount": "1000000000000000",
+        "actualAmount": null,
+        "selector": "0xa9059cbb",
+        "holderBalanceRaw": "160246610992114838440900201"
+      }
+    },
+    {
+      "id": "sim_sell_from_existing_holder",
+      "kind": "dynamic",
+      "result": true,
+      "evidence": {
+        "txSimulated": {
+          "from": "0xfB75AAD253dA424A2093691bD2740a129d0bA12e",
+          "to": "0xabe48f7f2B1e81FAE5c49DfA85Cfc9F1EEE49591",
+          "amountRaw": "1000000000000000",
+          "ok": true,
+          "revertReason": null
+        },
+        "note": "same call as sim_sell -- source wallet is a real pre-existing holder, not synthetically funded, so this case is covered by the same simulation",
+        "holderBalanceRaw": "160246610992114838440900201"
+      }
+    },
+    {
+      "id": "router_fee_supporting_variant",
+      "kind": "dynamic",
+      "result": false,
+      "evidence": {
+        "selector": "0xd06ca61f",
+        "note": "tests getAmountsOut (a view/quote function, no allowance needed) as a proxy for whether this router recognizes the token's pool -- NOT an actual swap execution, see README's Known limitation",
+        "router": "0xA5deC66ECa62AE363dC47965bB790C3B8870b6B6",
+        "actualAmount": null,
+        "error": "execution reverted"
+      }
+    },
+    {
+      "id": "router_fee_supporting_variant",
+      "kind": "dynamic",
+      "result": false,
+      "evidence": {
+        "selector": "0xd06ca61f",
+        "note": "tests getAmountsOut (a view/quote function, no allowance needed) as a proxy for whether this router recognizes the token's pool -- NOT an actual swap execution, see README's Known limitation",
+        "router": "0x0c0C17Bb0878B0Dc665B489E66D7441eFF608423",
+        "actualAmount": null,
+        "error": "execution reverted"
+      }
+    },
+    {
+      "id": "router_fee_supporting_variant",
+      "kind": "dynamic",
+      "result": false,
+      "evidence": {
+        "selector": "0xd06ca61f",
+        "note": "tests getAmountsOut (a view/quote function, no allowance needed) as a proxy for whether this router recognizes the token's pool -- NOT an actual swap execution, see README's Known limitation",
+        "router": "0x23e1aF39674F172685e84B3FFBFb43441a7A1096",
+        "actualAmount": null,
+        "error": "execution reverted"
+      }
+    },
+    {
+      "id": "router_fee_supporting_variant",
+      "kind": "dynamic",
+      "result": false,
+      "evidence": {
+        "selector": "0xd06ca61f",
+        "note": "tests getAmountsOut (a view/quote function, no allowance needed) as a proxy for whether this router recognizes the token's pool -- NOT an actual swap execution, see README's Known limitation",
+        "router": "0x23fB6Daaa17d62E010d341BB53916666ffB1BdbE",
+        "actualAmount": null,
+        "error": "execution reverted"
+      }
+    },
+    {
+      "id": "router_fee_supporting_variant",
+      "kind": "dynamic",
+      "result": false,
+      "evidence": {
+        "selector": "0xd06ca61f",
+        "note": "tests getAmountsOut (a view/quote function, no allowance needed) as a proxy for whether this router recognizes the token's pool -- NOT an actual swap execution, see README's Known limitation",
+        "router": "0xA727848C74249d11e2e82368A4afc00DFdf4Efba",
+        "actualAmount": null,
+        "error": "execution reverted"
+      }
+    },
+    {
+      "id": "router_fee_supporting_variant",
+      "kind": "dynamic",
+      "result": false,
+      "evidence": {
+        "selector": "0xd06ca61f",
+        "note": "tests getAmountsOut (a view/quote function, no allowance needed) as a proxy for whether this router recognizes the token's pool -- NOT an actual swap execution, see README's Known limitation",
+        "router": "0xbD8307765a5932090F7669e264d38F1666e8FF14",
+        "actualAmount": null,
+        "error": "execution reverted"
+      }
+    }
+  ]
+}

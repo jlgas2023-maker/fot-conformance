@@ -146,12 +146,40 @@ calling the pair contract directly, not through a router). Every committed
 snapshot says so plainly (`routerCompatibility: {implemented: false,
 reason: ...}`) rather than omitting the field silently or faking a result.
 
-## Deliverable 1 — not yet implemented
+## Deliverable 1: FOT taxonomy scanner (built, validated against one fixture)
 
-See [`scanner/README.md`](../scanner/README.md) for the full planned check
-list and verdict schema (`scanner/verdict.schema.json`). This is the
-genuinely hard deliverable — static source/bytecode analysis plus
-`eth_call`-only dynamic simulation — and the one still fully stubbed.
+Classifies a token `clean` / `declared_fot` / `suspect` from static
+source-text heuristics plus `eth_call`-only dynamic simulation. Every
+check runs live against TACO and matches ground truth after fixing two
+real bugs caught by testing against the actual contract source rather
+than trusting the regex by inspection — see `scanner/README.md` for both
+(a paren-truncation bug in the allowance-bypass check, and a
+negation-blindness bug in the asymmetric-buy-sell check that initially
+reported TACO's sell-only fee as applying to both directions).
+
+Dynamic simulation impersonates real on-chain addresses (the pool, a real
+top holder) via `eth_call`'s `from` field — no signature, no state
+override, since a genuinely-funded real address makes the simulated
+transfer succeed or fail on the contract's actual logic. A real
+investigation went into computing exact "received amount" deltas (an
+atomic probe-contract technique, compiled and tested live via `forge`/
+`cast`) before concluding it fundamentally breaks `transfer()`'s
+`msg.sender`-based auth model — see `scanner/README.md`'s "Known
+limitation" section for the full technical account. What ships instead is
+SUCCESS/REVERT detection, which is what actually answers "is this a
+honeypot," the project's core concern.
+
+Router compatibility discovered a real, useful fact about this chain
+along the way: none of six verified router contracts found via Blockscout
+search share TACO's own pool factory, so this chain's DEX liquidity is
+fragmented across incompatible deployments — not a token-side FOT problem,
+a chain-infrastructure one (see `chainqa/README.md`'s router-matrix note,
+which independently hit the same wall).
+
+**What's still missing:** a genuine `suspect` fixture. Every check is
+validated on a known-good token; none has been validated against a real
+drainer, because fabricating one would validate nothing real. See
+`scanner/README.md`'s Fixtures section.
 
 ## Non-goals
 

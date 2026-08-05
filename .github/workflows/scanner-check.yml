@@ -1,0 +1,43 @@
+name: FOT Taxonomy Scan
+
+on:
+  schedule:
+    # Daily -- unlike supply/chainqa this isn't a drift-over-time metric,
+    # it's a point-in-time classification. Re-running it daily mainly
+    # catches the LIVE checks changing (owner_is_zero, sim_buy/sim_sell
+    # success) if something about a token's on-chain state shifts; the
+    # static checks only change if the verified source itself changes,
+    # which Blockscout wouldn't allow post-verification anyway.
+    - cron: "13 4 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: scanner-check
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Scan TACO
+        run: node scanner/scan.mjs taco
+
+      - name: Commit results
+        run: |
+          git config user.name "fot-conformance-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add scanner/results
+          git diff --cached --quiet && echo "no changes" && exit 0
+          git commit -m "scanner: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push
