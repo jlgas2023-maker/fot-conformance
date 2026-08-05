@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Supply Conformance — FOT Conformance Suite</title>
+<meta name="description" content="Committed, tamper-evident history of on-chain supply vs what external data providers report -- read straight from the chain, no backend.">
+<style>
+  :root{
+    --bg:#0b0c07; --panel:#14160d; --panel2:#191c10;
+    --line:#2c3019; --ink:#ece9d6; --muted:#9a9c80; --dim:#6a6c52;
+    --lime:#ccff00; --ok:#54e08a; --bad:#f2584b;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,monospace;
+    --sans:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5}
+  .wrap{max-width:960px;margin:0 auto;padding:26px 20px 60px}
+  .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+  a{color:var(--lime)}
+  h1{font-size:24px;margin:0 0 4px}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:22px}
+  select,input{background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-family:var(--mono)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:10px}
+  th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--dim);padding:0 10px 8px 0}
+  td{padding:8px 10px 8px 0;border-top:1px solid var(--line)}
+  .num{font-family:var(--mono);text-align:right}
+  .ok{color:var(--ok)} .bad{color:var(--bad);font-weight:700}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-top:18px}
+  .card h2{margin:0 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:.6px}
+  .runs{font-size:12.5px;color:var(--muted)}
+  .runs td a{color:var(--muted)}
+  .runs td a:hover{color:var(--lime)}
+  .err{color:var(--bad)}
+  .note{color:var(--dim);font-size:11.5px;margin-top:6px}
+  .backlink{font-size:12.5px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="backlink"><a href="../index.html">&larr; suite home</a></div>
+  <h1>Supply Conformance</h1>
+  <div class="sub">On-chain <code>totalSupply</code> vs what each public data provider reports for the same token, sampled on a schedule and committed to this repo. <a href="../docs/methodology.md">Methodology</a>.</div>
+
+  <label class="mono" style="font-size:12.5px;color:var(--muted)">token:
+    <select id="tokenSelect"></select>
+  </label>
+
+  <div id="latest"></div>
+  <div class="card">
+    <h2>Run History</h2>
+    <div id="runs">loading…</div>
+  </div>
+</div>
+
+<script>
+const TOKENS = ["taco"]; // extend as config/tokens/*.json grows
+
+const $ = (id) => document.getElementById(id);
+const fmt = (v) => v == null ? "--" : Number(v).toLocaleString(undefined, {maximumFractionDigits: 3});
+const fpct = (v) => v == null ? "--" : (v >= 0 ? "+" : "") + Number(v).toFixed(3) + "%";
+
+async function loadToken(token) {
+  const idxRes = await fetch(`history/${token}/index.json`);
+  if (!idxRes.ok) { $("latest").innerHTML = `<p class="err">no history yet for ${token}</p>`; return; }
+  const index = await idxRes.json();
+  if (index.length === 0) { $("latest").innerHTML = `<p>no runs yet</p>`; return; }
+
+  const latestMeta = index[index.length - 1];
+  const snap = await (await fetch(`history/${token}/${latestMeta.file}`)).json();
+
+  const rows = snap.sources.map(r => `
+    <tr>
+      <td>${r.source}</td>
+      <td class="num">${r.error ? `<span class="err">error</span>` : fmt(r.reportedSupply)}</td>
+      <td class="num">${r.error ? "--" : fpct(r.percentDelta)}</td>
+      <td>${r.error ? `<span class="err">${r.error}</span>` : (r.capFdvWrong ? '<span class="bad">cap/FDV wrong</span>' : '<span class="ok">consistent</span>')}</td>
+      <td style="color:var(--dim);font-size:11.5px">${r.method || ""}</td>
+    </tr>`).join("");
+
+  $("latest").innerHTML = `
+    <div class="card">
+      <h2>${snap.token} — as of ${new Date(snap.fetchedAt).toLocaleString()} (block ${snap.block.toLocaleString()})</h2>
+      <div class="runs">
+        genesis ${fmt(snap.genesisSupply)} · burned (genesis−current) ${fmt(snap.burnedByDifference)} ·
+        burned (sum of burn transfers) ${fmt(snap.burnedByLogs)} ·
+        independent checks: <span class="${snap.burnChecksAgree ? 'ok' : 'bad'}">${snap.burnChecksAgree ? "agree" : "MISMATCH"}</span>
+        ${snap.burnScanIncomplete ? '<span class="bad"> (scan incomplete)</span>' : ''}
+      </div>
+      <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Source</th><th class="num">Reported Supply</th><th class="num">Δ vs On-Chain</th><th>Verdict</th><th>Method</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      </div>
+      <div class="note">Every source is queried fresh at run time. "Error" means the source was unreachable or shaped unexpectedly this run, not that supply matches -- see <a href="${snap.genesisEvidence?.txHash ? '' : '#'}">genesisEvidence</a> in the raw JSON for full reproducibility.</div>
+    </div>
+  `;
+
+  const runRows = [...index].reverse().map(r => `
+    <tr>
+      <td><a href="history/${token}/${r.file}" target="_blank">${new Date(r.fetchedAt).toLocaleString()}</a></td>
+      <td class="num">${r.block.toLocaleString()}</td>
+      <td class="num">${fmt(r.onChainSupply)}</td>
+      <td class="num">${fpct(r.maxAbsPercentDelta)}</td>
+      <td>${r.burnChecksAgree ? '<span class="ok">agree</span>' : '<span class="bad">MISMATCH</span>'}</td>
+    </tr>`).join("");
+  $("runs").innerHTML = `
+    <div style="overflow-x:auto">
+    <table class="runs">
+      <thead><tr><th>Run</th><th class="num">Block</th><th class="num">On-Chain Supply</th><th class="num">Max |Δ| across sources</th><th>Burn Check</th></tr></thead>
+      <tbody>${runRows}</tbody>
+    </table>
+    </div>
+  `;
+}
+
+const sel = $("tokenSelect");
+sel.innerHTML = TOKENS.map(t => `<option value="${t}">${t.toUpperCase()}</option>`).join("");
+sel.addEventListener("change", () => loadToken(sel.value));
+loadToken(TOKENS[0]);
+</script>
+</body>
+</html>

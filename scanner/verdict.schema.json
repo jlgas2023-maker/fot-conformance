@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FOT taxonomy scanner verdict",
+  "description": "Never a bare score -- every check's result and evidence must be present so the verdict is reproducible by a third party from this JSON alone.",
+  "type": "object",
+  "required": ["token", "chain", "checkedAt", "verdict", "checks"],
+  "properties": {
+    "token": { "type": "string", "description": "checksummed contract address" },
+    "chain": { "type": "string" },
+    "checkedAt": { "type": "string", "format": "date-time" },
+    "verdict": { "enum": ["clean", "declared_fot", "suspect"] },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "result", "evidence"],
+        "properties": {
+          "id": {
+            "enum": [
+              "fee_logic_present",
+              "fee_rate_mutability",
+              "privileged_address_check",
+              "non_allowance_mapping_read",
+              "allowance_bypass",
+              "mint_function",
+              "blacklist_function",
+              "pause_function",
+              "owner_is_zero",
+              "asymmetric_buy_sell",
+              "sim_buy",
+              "sim_sell",
+              "sim_wallet_transfer",
+              "sim_sell_from_existing_holder",
+              "router_fee_supporting_variant",
+              "router_non_supporting_variant"
+            ]
+          },
+          "kind": { "enum": ["static", "dynamic"] },
+          "result": { "type": ["string", "boolean", "null"] },
+          "evidence": {
+            "type": "object",
+            "description": "opcode offset, storage slot, source line, or simulation delta -- whatever makes this reproducible",
+            "properties": {
+              "opcodeOffset": { "type": ["integer", "null"] },
+              "storageSlot": { "type": ["string", "null"] },
+              "sourceLine": { "type": ["integer", "null"] },
+              "expectedAmount": { "type": ["string", "null"] },
+              "actualAmount": { "type": ["string", "null"] },
+              "txSimulated": { "type": ["object", "null"] },
+              "selector": { "type": ["string", "null"] }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "fot-conformance",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Fee-on-transfer conformance suite for Robinhood Chain -- read-only, no backend, no custody.",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "supply:taco": "node supply/check.mjs taco"
+  },
+  "license": "MIT"
+}

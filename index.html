@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FOT Conformance Suite — Robinhood Chain</title>
+<meta name="description" content="Read-only, zero-backend conformance tooling for Robinhood Chain: fee-on-transfer taxonomy, supply-vs-provider drift, a generic token dashboard, and chain infrastructure QA. Nothing here launches, trades, or holds anything.">
+<style>
+  :root{
+    --bg:#0b0c07; --panel:#14160d; --line:#2c3019;
+    --ink:#ece9d6; --muted:#9a9c80; --dim:#6a6c52; --lime:#ccff00; --ok:#54e08a;
+    --sans:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);padding:30px 20px 60px}
+  .wrap{max-width:820px;margin:0 auto}
+  h1{font-size:26px;margin:0 0 6px}
+  .sub{color:var(--muted);font-size:14px;margin-bottom:26px;max-width:640px}
+  a{color:var(--lime)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;text-decoration:none;display:block;color:var(--ink)}
+  .card:hover{border-color:var(--lime)}
+  .card h2{font-size:15px;margin:0 0 6px;display:flex;align-items:center;gap:8px}
+  .card p{font-size:12.5px;color:var(--muted);margin:0;line-height:1.5}
+  .badge{font-size:9.5px;text-transform:uppercase;letter-spacing:.4px;padding:2px 7px;border-radius:5px;font-weight:700}
+  .badge.live{background:rgba(84,224,138,.16);color:var(--ok)}
+  .badge.stub{background:rgba(154,156,128,.16);color:var(--muted)}
+  footer{margin-top:30px;font-size:12px;color:var(--dim)}
+  @media (max-width:600px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>FOT Conformance Suite</h1>
+  <div class="sub">Read-only, zero-backend tooling for Robinhood Chain: distinguishing declared fee-on-transfer tokens from concealed drainers, catching data providers that mishandle burn-decreasing supply, and a generic token dashboard. Nothing here launches, trades, holds funds, or requires a wallet connection. See <a href="docs/methodology.md">docs/methodology.md</a> for the full rationale.</div>
+
+  <div class="grid">
+    <a class="card" href="supply/index.html">
+      <h2>Supply Conformance <span class="badge live">live</span></h2>
+      <p>On-chain totalSupply vs. what each external provider reports, sampled on a schedule and committed as tamper-evident history.</p>
+    </a>
+    <a class="card" href="scanner/index.html">
+      <h2>FOT Taxonomy Scanner <span class="badge stub">stub</span></h2>
+      <p>Classifies any ERC20 as clean, declared-FOT, or suspect via static + eth_call-only dynamic analysis.</p>
+    </a>
+    <a class="card" href="dashboard/index.html">
+      <h2>Token Dashboard <span class="badge stub">stub</span></h2>
+      <p>Generic, config-driven price/supply/holder dashboard for any ERC20 on any EVM chain.</p>
+    </a>
+    <a class="card" href="chainqa/index.html">
+      <h2>Chain Infrastructure QA <span class="badge stub">stub</span></h2>
+      <p>RPC latency, Blockscout indexing lag, router compatibility, and verified-source coverage over time.</p>
+    </a>
+  </div>
+
+  <footer>MIT licensed. Every check documented in <a href="docs/methodology.md">docs/</a> with its rationale and false-positive mode.</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Generic token dashboard config",
+  "type": "object",
+  "required": ["chainId", "rpc", "explorerApiBase", "token", "pool", "nativeWrapper"],
+  "properties": {
+    "chainId": { "type": "integer" },
+    "rpc": { "type": "string", "format": "uri" },
+    "explorerApiBase": { "type": "string", "format": "uri" },
+    "token": { "type": "string", "description": "token contract address" },
+    "pool": { "type": "string", "description": "primary price-reference pool address" },
+    "nativeWrapper": { "type": "string", "description": "e.g. WETH -- pool's other leg" },
+    "stablePool": { "type": ["string", "null"], "description": "wrapper/stable pool for USD pricing, e.g. WETH/USDG" },
+    "decimals": { "type": "integer", "default": 18 },
+    "genesisSupply": { "type": ["number", "null"], "description": "falls back to supply/history/<token>/ if omitted" },
+    "labels": {
+      "type": "object",
+      "description": "address (lowercase) -> {tag, class} for known-address labeling",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "tag": { "type": "string" },
+          "class": { "enum": ["pool", "burn", "founder", "router", "hold"] }
+        }
+      }
+    }
+  }
+}

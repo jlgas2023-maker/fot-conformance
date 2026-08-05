@@ -1,0 +1,18 @@
+[
+  {
+    "file": "2026-08-05T03-47-16-449Z.json",
+    "fetchedAt": "2026-08-05T03:47:16.449Z",
+    "block": 28173507,
+    "onChainSupply": 659983275.4180638,
+    "maxAbsPercentDelta": 51.51899104815255,
+    "burnChecksAgree": true
+  },
+  {
+    "file": "2026-08-05T03-47-30-224Z.json",
+    "fetchedAt": "2026-08-05T03:47:30.224Z",
+    "block": 28174125,
+    "onChainSupply": 659983275.4180638,
+    "maxAbsPercentDelta": 51.51899104815255,
+    "burnChecksAgree": true
+  }
+]

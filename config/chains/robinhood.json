@@ -1,0 +1,15 @@
+{
+  "chainId": 4663,
+  "name": "Robinhood Chain",
+  "rpc": "https://rpc.mainnet.chain.robinhood.com",
+  "explorerApiBase": "https://robinhoodchain.blockscout.com",
+  "explorerTxBase": "https://robinhoodchain.blockscout.com/tx/",
+  "explorerTokenBase": "https://robinhoodchain.blockscout.com/token/",
+  "explorerAddressBase": "https://robinhoodchain.blockscout.com/address/",
+  "nativeWrapper": "0x0bd7d308f8e1639fab988df18a8011f41eacad73",
+  "nativeSymbol": "ETH",
+  "stablecoin": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+  "stableSymbol": "USDG",
+  "uniswapV2Factory": "0x8bceaa40b9acdfaedf85adf4ff01f5ad6517937f",
+  "_note": "Went public mainnet 2026-07-01. eth_getLogs range caps and rate limits are unconfirmed at scale -- supply/check.mjs and scanner code must chunk defensively and treat a cap/limit response as a normal condition, not an error."
+}

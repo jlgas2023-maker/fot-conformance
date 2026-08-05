@@ -1,0 +1,46 @@
+name: Supply Conformance Check
+
+on:
+  schedule:
+    # Every 6 hours. Robinhood Chain went public mainnet 2026-07-01 and this
+    # suite has no way to know in advance how often external providers
+    # actually refresh -- 6h is a starting guess, cheap to tighten once
+    # real drift-over-time data (the point of this whole workflow) shows
+    # how fast providers actually update.
+    - cron: "17 */6 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: supply-check
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # One line per token in config/tokens/ -- add new tokens here as they
+      # get a config file. No dependency install step: supply/*.mjs is
+      # deliberately dependency-free (Node's global fetch), so there is
+      # nothing to `npm ci`.
+      - name: Run supply check -- TACO
+        run: node supply/check.mjs taco
+
+      - name: Commit results
+        run: |
+          git config user.name "fot-conformance-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add supply/history supply/state
+          git diff --cached --quiet && echo "no changes" && exit 0
+          git commit -m "supply check: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push

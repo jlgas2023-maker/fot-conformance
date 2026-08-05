@@ -1,0 +1,17 @@
+{
+  "chain": "robinhood",
+  "symbol": "TACO",
+  "name": "TrumpAlwaysChickensOut",
+  "address": "0x9e5e02F5C9ea48931d4e8f488089103e93F925fF",
+  "decimals": 18,
+  "pool": "0xabe48f7f2B1e81FAE5c49DfA85Cfc9F1EEE49591",
+  "poolQuoteToken": "0x0bd7d308f8e1639fab988df18a8011f41eacad73",
+  "deploymentTxHash": "0x2692184e6363fdad9400c454cdcffbc274b6827255e7f57eaa69f70fc48013c0",
+  "deploymentBlock": 9064189,
+  "burnAddresses": [
+    "0x0000000000000000000000000000000000000000",
+    "0x000000000000000000000000000000000000dEaD"
+  ],
+  "founderWallet": null,
+  "_note": "Reference/test fixture token for this suite -- see docs/methodology.md. 1B fixed genesis supply, 4% burn-on-sell only (Transfer(seller, 0x0, burnAmt) emitted directly on every taxed sell, no separate dead-address path -- see contracts/TacoBurn.sol in the taco-burn repo), rate is a compile-time constant with no setter, owner renounced, LP burned. founderWallet intentionally left null here even though it's a disclosed single wallet -- fill in before relying on dashboard/ to label it; not required for supply/ or scanner/ to function."
+}
