@@ -43,4 +43,18 @@ jobs:
           git add supply/history supply/state
           git diff --cached --quiet && echo "no changes" && exit 0
           git commit -m "supply check: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          git push
+          # This repo has 3 independent scheduled workflows that all push
+          # to main; their crons are staggered to avoid overlap, but a
+          # manual workflow_dispatch (or a slow runner) can still collide
+          # -- confirmed live 2026-08-05, triggering all three by hand at
+          # once got one push rejected as non-fast-forward. Retry with
+          # rebase instead of assuming the schedule alone prevents this.
+          for i in 1 2 3 4 5; do
+            git push && exit 0
+            echo "push rejected, rebasing onto origin/main and retrying ($i/5)..."
+            git fetch origin main
+            git rebase origin/main
+            sleep $((i * 3))
+          done
+          echo "push failed after retries" >&2
+          exit 1

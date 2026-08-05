@@ -132,7 +132,13 @@ async function main() {
 
   let index = [];
   try {
-    index = await loadJson(`${historyDir}/index.json`);
+    const loaded = await loadJson(`${historyDir}/index.json`);
+    // Confirmed live 2026-08-05: a malformed (non-array) index.json made
+    // it into git once already and crashed every subsequent run with
+    // "index.push is not a function" -- self-heal instead of trusting the
+    // file's shape blindly, same as a missing file just starts fresh.
+    if (Array.isArray(loaded)) index = loaded;
+    else console.warn(`${historyDir}/index.json was not an array (got ${typeof loaded}) -- starting a fresh index instead of crashing`);
   } catch {
     // First run for this chain.
   }

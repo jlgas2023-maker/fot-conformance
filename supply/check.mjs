@@ -244,7 +244,13 @@ async function main() {
 
   let index = [];
   try {
-    index = await loadJson(`${historyDir}/index.json`);
+    const loaded = await loadJson(`${historyDir}/index.json`);
+    // Defensive: chainqa/check.mjs's identical pattern was confirmed live
+    // 2026-08-05 to crash on a malformed (non-array) index.json that made
+    // it into git -- self-heal here the same way rather than trust the
+    // file's shape blindly.
+    if (Array.isArray(loaded)) index = loaded;
+    else console.warn(`${historyDir}/index.json was not an array (got ${typeof loaded}) -- starting a fresh index instead of crashing`);
   } catch {
     // First run for this token -- start a fresh index.
   }
