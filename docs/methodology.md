@@ -112,15 +112,25 @@ tax; LP adds to the registered pair are taxed like sells) — neither
 affects this checker's correctness, both are disclosed-by-design, not
 concealed.
 
-## Deliverables 1, 3, 4 — not yet implemented
+## Deliverable 3: generic token dashboard (built, live)
+
+Ported from the existing TACO-hardcoded `taco-burn/dist/stats.html` into a
+single `config.json`-driven template (`dashboard/index.html` + `app.js`).
+Same price/reserves/holder/24h-flow logic, parameterized. Caught a real bug
+before shipping by executing the ported logic against live RPC rather than
+trusting a static port: the natural first-draft config pointed `stablePool`
+at the stablecoin's own token address instead of the actual Uniswap V2 pair
+address, which reverts on every `eth_call` since a plain ERC20 doesn't
+implement pair functions. See `dashboard/README.md` for the full account
+and the fix.
+
+## Deliverables 1 and 4 — not yet implemented
 
 See each directory's own `README.md` for the planned check list and
 rationale:
 - [`scanner/README.md`](../scanner/README.md) — FOT taxonomy scanner,
   static + `eth_call`-only dynamic analysis, verdict schema at
   `scanner/verdict.schema.json`.
-- [`dashboard/README.md`](../dashboard/README.md) — generic token
-  dashboard, genericizing the existing TACO-hardcoded stats page.
 - [`chainqa/README.md`](../chainqa/README.md) — chain infrastructure QA
   monitor, same scheduled-Action + committed-history pattern as
   Deliverable 2.

@@ -8,11 +8,19 @@
     "rpc": { "type": "string", "format": "uri" },
     "explorerApiBase": { "type": "string", "format": "uri" },
     "token": { "type": "string", "description": "token contract address" },
+    "symbol": { "type": "string", "description": "e.g. TACO -- display only, also used to locate supply/history/<symbol>/ for the genesisSupply fallback" },
     "pool": { "type": "string", "description": "primary price-reference pool address" },
     "nativeWrapper": { "type": "string", "description": "e.g. WETH -- pool's other leg" },
-    "stablePool": { "type": ["string", "null"], "description": "wrapper/stable pool for USD pricing, e.g. WETH/USDG" },
+    "nativeSymbol": { "type": "string", "default": "ETH" },
+    "stablePool": { "type": ["string", "null"], "description": "the POOL address for nativeWrapper/stablecoin (e.g. the WETH/USDG pair), NOT the stablecoin's own token address -- confirmed live 2026-08 that using the token address here makes every eth_call against it revert, since it isn't a Uniswap V2 pair contract. Look it up via the factory's getPair(tokenA, tokenB) if unknown." },
     "decimals": { "type": "integer", "default": 18 },
-    "genesisSupply": { "type": ["number", "null"], "description": "falls back to supply/history/<token>/ if omitted" },
+    "genesisSupply": { "type": ["number", "null"], "description": "falls back to supply/history/<symbol>/ if omitted" },
+    "burnAddresses": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": ["0x0000000000000000000000000000000000000000"],
+      "description": "used for the 24h burn-flow log filter"
+    },
     "labels": {
       "type": "object",
       "description": "address (lowercase) -> {tag, class} for known-address labeling",

@@ -3,14 +3,17 @@
   "rpc": "https://rpc.mainnet.chain.robinhood.com",
   "explorerApiBase": "https://robinhoodchain.blockscout.com",
   "token": "0x9e5e02F5C9ea48931d4e8f488089103e93F925fF",
+  "symbol": "TACO",
   "pool": "0xabe48f7f2B1e81FAE5c49DfA85Cfc9F1EEE49591",
   "nativeWrapper": "0x0bd7d308f8e1639fab988df18a8011f41eacad73",
-  "stablePool": "0x5fc5360d0400a0fd4f2af552add042d716f1d168",
+  "nativeSymbol": "ETH",
+  "stablePool": "0x8803C117CCAe7b5146297876c2A25Df135141C4d",
   "decimals": 18,
   "genesisSupply": 1000000000,
+  "burnAddresses": ["0x0000000000000000000000000000000000000000"],
   "labels": {
-    "0xabe48f7f2b1e81fae5c49dfa85cfc9f1eee49591": { "tag": "LP Pool", "class": "pool" },
-    "0x0000000000000000000000000000000000000000": { "tag": "Burned", "class": "burn" }
+    "0xabe48f7f2b1e81fae5c49dfa85cfc9f1eee49591": { "tag": "Liquidity Pool", "class": "pool" },
+    "0x7762cfb99f463b1dc44c56a0e7a3e37cd5396f6d": { "tag": "Founder (disclosed)", "class": "founder" }
   },
-  "_note": "TACO expressed in the generic dashboard config shape -- kept in sync by hand with config/tokens/taco.json until dashboard/ actually reads that file directly (see README.md point 3)."
+  "_note": "TACO expressed in the generic dashboard config shape -- kept in sync by hand with config/tokens/taco.json until dashboard/app.js reads that file directly instead of duplicating it."
 }
