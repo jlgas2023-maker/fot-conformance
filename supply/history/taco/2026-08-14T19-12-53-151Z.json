@@ -1,0 +1,60 @@
+{
+  "token": "TACO",
+  "chain": "Robinhood Chain",
+  "address": "0x9e5e02F5C9ea48931d4e8f488089103e93F925fF",
+  "fetchedAt": "2026-08-14T19:12:53.151Z",
+  "block": 36494895,
+  "onChainSupply": 638773674.5427057,
+  "genesisSupply": 1000000000,
+  "genesisMethod": "sum of 2 Transfer(0x0,...) log(s) in deploymentTxHash 0x2692184e6363fdad9400c454cdcffbc274b6827255e7f57eaa69f70fc48013c0",
+  "genesisEvidence": {
+    "txHash": "0x2692184e6363fdad9400c454cdcffbc274b6827255e7f57eaa69f70fc48013c0",
+    "mintCount": 2
+  },
+  "burnedByDifference": 361226325.45729434,
+  "burnedByLogs": 361227325.4572943,
+  "burnChecksAgree": false,
+  "burnScanIncomplete": false,
+  "sources": [
+    {
+      "source": "on-chain (ground truth)",
+      "reportedSupply": 638773674.5427057,
+      "onChainSupply": 638773674.5427057,
+      "absoluteDelta": 0,
+      "percentDelta": 0,
+      "capFdvWrong": false,
+      "method": "eth_call totalSupply() at latest block, this run",
+      "error": null
+    },
+    {
+      "source": "blockscout",
+      "reportedSupply": 638773674.5427057,
+      "onChainSupply": 638773674.5427057,
+      "absoluteDelta": 0,
+      "percentDelta": 0,
+      "capFdvWrong": false,
+      "method": "total_supply field, raw base units / 10**decimals",
+      "error": null
+    },
+    {
+      "source": "geckoterminal",
+      "reportedSupply": 1000000000,
+      "onChainSupply": 638773674.5427057,
+      "absoluteDelta": 361226325.45729434,
+      "percentDelta": 56.54997064741188,
+      "capFdvWrong": true,
+      "method": "data.attributes.normalized_total_supply, already token-unit scaled",
+      "error": null
+    },
+    {
+      "source": "dexscreener (implied)",
+      "reportedSupply": 638807617.9961358,
+      "onChainSupply": 638773674.5427057,
+      "absoluteDelta": 33943.45343017578,
+      "percentDelta": 0.005313846638165811,
+      "capFdvWrong": false,
+      "method": "implied: marketCap / priceUsd (DexScreener reports no raw supply field)",
+      "error": null
+    }
+  ]
+}
