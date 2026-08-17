@@ -2,7 +2,7 @@
   "token": "0x9e5e02F5C9ea48931d4e8f488089103e93F925fF",
   "symbol": "TACO",
   "chain": "Robinhood Chain",
-  "checkedAt": "2026-08-16T04:48:13.045Z",
+  "checkedAt": "2026-08-17T04:55:22.188Z",
   "verdict": "declared_fot",
   "verdictReason": [
     "fee_logic_present_no_suspect_signals"
@@ -100,24 +100,6 @@
       }
     },
     {
-      "id": "sim_sell",
-      "kind": "dynamic",
-      "result": null,
-      "evidence": {
-        "txSimulated": null,
-        "error": "could not find a test holder: holders fetch failed: HTTP 500"
-      }
-    },
-    {
-      "id": "sim_sell_from_existing_holder",
-      "kind": "dynamic",
-      "result": null,
-      "evidence": {
-        "txSimulated": null,
-        "error": "could not find a test holder: holders fetch failed: HTTP 500"
-      }
-    },
-    {
       "id": "sim_buy",
       "kind": "dynamic",
       "result": true,
@@ -149,6 +131,40 @@
         "expectedAmount": "1000000000000000",
         "actualAmount": null,
         "selector": "0xa9059cbb"
+      }
+    },
+    {
+      "id": "sim_sell",
+      "kind": "dynamic",
+      "result": true,
+      "evidence": {
+        "txSimulated": {
+          "from": "0xfB75AAD253dA424A2093691bD2740a129d0bA12e",
+          "to": "0xabe48f7f2B1e81FAE5c49DfA85Cfc9F1EEE49591",
+          "amountRaw": "1000000000000000",
+          "ok": true,
+          "revertReason": null
+        },
+        "expectedAmount": "1000000000000000",
+        "actualAmount": null,
+        "selector": "0xa9059cbb",
+        "holderBalanceRaw": "160246610992114838440900201"
+      }
+    },
+    {
+      "id": "sim_sell_from_existing_holder",
+      "kind": "dynamic",
+      "result": true,
+      "evidence": {
+        "txSimulated": {
+          "from": "0xfB75AAD253dA424A2093691bD2740a129d0bA12e",
+          "to": "0xabe48f7f2B1e81FAE5c49DfA85Cfc9F1EEE49591",
+          "amountRaw": "1000000000000000",
+          "ok": true,
+          "revertReason": null
+        },
+        "note": "same call as sim_sell -- source wallet is a real pre-existing holder, not synthetically funded, so this case is covered by the same simulation",
+        "holderBalanceRaw": "160246610992114838440900201"
       }
     },
     {
