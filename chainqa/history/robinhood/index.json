@@ -742,5 +742,13 @@
     "rpcLatencyMs": 339,
     "indexingLagBlocks": 198,
     "verifiedPct": 19.899487274621052
+  },
+  {
+    "file": "2026-08-17T04-26-02-243Z.json",
+    "fetchedAt": "2026-08-17T04:26:02.243Z",
+    "rpcOk": true,
+    "rpcLatencyMs": 379,
+    "indexingLagBlocks": 197,
+    "verifiedPct": 19.911672936761278
   }
 ]
