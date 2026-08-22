@@ -2,7 +2,7 @@
   "token": "0x9e5e02F5C9ea48931d4e8f488089103e93F925fF",
   "symbol": "TACO",
   "chain": "Robinhood Chain",
-  "checkedAt": "2026-08-21T04:51:39.443Z",
+  "checkedAt": "2026-08-22T04:46:45.894Z",
   "verdict": "declared_fot",
   "verdictReason": [
     "fee_logic_present_no_suspect_signals"
