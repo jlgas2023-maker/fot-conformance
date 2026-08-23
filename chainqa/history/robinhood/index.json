@@ -1158,5 +1158,13 @@
     "rpcLatencyMs": 227,
     "indexingLagBlocks": null,
     "verifiedPct": 18.790658579459066
+  },
+  {
+    "file": "2026-08-23T15-57-54-984Z.json",
+    "fetchedAt": "2026-08-23T15:57:54.984Z",
+    "rpcOk": true,
+    "rpcLatencyMs": 272,
+    "indexingLagBlocks": 26,
+    "verifiedPct": 18.78429650358221
   }
 ]
