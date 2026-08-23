@@ -1,0 +1,34 @@
+{
+  "chain": "Robinhood Chain",
+  "fetchedAt": "2026-08-23T13:20:24.782Z",
+  "rpc": {
+    "url": "https://rpc.mainnet.chain.robinhood.com",
+    "ok": true,
+    "latencyMs": 227,
+    "block": 44035342,
+    "error": null
+  },
+  "indexingLag": {
+    "url": "https://robinhoodchain.blockscout.com/api/v2/blocks?type=block",
+    "ok": false,
+    "indexedBlock": null,
+    "headBlock": 44035342,
+    "lagBlocks": null,
+    "error": "HTTP 500"
+  },
+  "verificationCoverage": {
+    "url": "https://robinhoodchain.blockscout.com/api/v2/smart-contracts/counters",
+    "ok": true,
+    "scope": "all-time",
+    "totalContracts": 3909384,
+    "verifiedContracts": 734599,
+    "verifiedPct": 18.790658579459066,
+    "newContracts24h": 5576,
+    "newVerified24h": 8885,
+    "error": null
+  },
+  "routerCompatibility": {
+    "implemented": false,
+    "reason": "no known router/aggregator addresses on this chain -- see check.mjs header comment"
+  }
+}
