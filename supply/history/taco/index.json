@@ -638,5 +638,13 @@
     "onChainSupply": 629024601.5703667,
     "maxAbsPercentDelta": 58.976294011949484,
     "burnChecksAgree": false
+  },
+  {
+    "file": "2026-08-24T18-58-10-142Z.json",
+    "fetchedAt": "2026-08-24T18:58:10.142Z",
+    "block": 45099702,
+    "onChainSupply": 628964614.2910745,
+    "maxAbsPercentDelta": 58.99145632018281,
+    "burnChecksAgree": false
   }
 ]
