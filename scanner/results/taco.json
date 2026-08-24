@@ -2,7 +2,7 @@
   "token": "0x9e5e02F5C9ea48931d4e8f488089103e93F925fF",
   "symbol": "TACO",
   "chain": "Robinhood Chain",
-  "checkedAt": "2026-08-23T04:49:49.387Z",
+  "checkedAt": "2026-08-24T04:58:37.830Z",
   "verdict": "declared_fot",
   "verdictReason": [
     "fee_logic_present_no_suspect_signals"
@@ -148,7 +148,7 @@
         "expectedAmount": "1000000000000000",
         "actualAmount": null,
         "selector": "0xa9059cbb",
-        "holderBalanceRaw": "160246610992114838440900201"
+        "holderBalanceRaw": "161124187002178104746064918"
       }
     },
     {
@@ -164,7 +164,7 @@
           "revertReason": null
         },
         "note": "same call as sim_sell -- source wallet is a real pre-existing holder, not synthetically funded, so this case is covered by the same simulation",
-        "holderBalanceRaw": "160246610992114838440900201"
+        "holderBalanceRaw": "161124187002178104746064918"
       }
     },
     {
