@@ -1,0 +1,60 @@
+{
+  "token": "TACO",
+  "chain": "Robinhood Chain",
+  "address": "0x9e5e02F5C9ea48931d4e8f488089103e93F925fF",
+  "fetchedAt": "2026-08-25T07:07:22.930Z",
+  "block": 45536123,
+  "onChainSupply": 627879738.5773628,
+  "genesisSupply": 1000000000,
+  "genesisMethod": "sum of 2 Transfer(0x0,...) log(s) in deploymentTxHash 0x2692184e6363fdad9400c454cdcffbc274b6827255e7f57eaa69f70fc48013c0",
+  "genesisEvidence": {
+    "txHash": "0x2692184e6363fdad9400c454cdcffbc274b6827255e7f57eaa69f70fc48013c0",
+    "mintCount": 2
+  },
+  "burnedByDifference": 372120261.42263716,
+  "burnedByLogs": 372122261.4226372,
+  "burnChecksAgree": false,
+  "burnScanIncomplete": false,
+  "sources": [
+    {
+      "source": "on-chain (ground truth)",
+      "reportedSupply": 627879738.5773628,
+      "onChainSupply": 627879738.5773628,
+      "absoluteDelta": 0,
+      "percentDelta": 0,
+      "capFdvWrong": false,
+      "method": "eth_call totalSupply() at latest block, this run",
+      "error": null
+    },
+    {
+      "source": "blockscout",
+      "reportedSupply": 628490800.5263493,
+      "onChainSupply": 627879738.5773628,
+      "absoluteDelta": 611061.9489865303,
+      "percentDelta": 0.09732149509571086,
+      "capFdvWrong": true,
+      "method": "total_supply field, raw base units / 10**decimals",
+      "error": null
+    },
+    {
+      "source": "geckoterminal",
+      "reportedSupply": 1000000000,
+      "onChainSupply": 627879738.5773628,
+      "absoluteDelta": 372120261.4226372,
+      "percentDelta": 59.26616811457872,
+      "capFdvWrong": true,
+      "method": "data.attributes.normalized_total_supply, already token-unit scaled",
+      "error": null
+    },
+    {
+      "source": "dexscreener (implied)",
+      "reportedSupply": 628003696.857671,
+      "onChainSupply": 627879738.5773628,
+      "absoluteDelta": 123958.28030824661,
+      "percentDelta": 0.019742360310767277,
+      "capFdvWrong": true,
+      "method": "implied: marketCap / priceUsd (DexScreener reports no raw supply field)",
+      "error": null
+    }
+  ]
+}
