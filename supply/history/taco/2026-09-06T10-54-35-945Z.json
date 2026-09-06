@@ -1,0 +1,60 @@
+{
+  "token": "TACO",
+  "chain": "Robinhood Chain",
+  "address": "0x9e5e02F5C9ea48931d4e8f488089103e93F925fF",
+  "fetchedAt": "2026-09-06T10:54:35.945Z",
+  "block": 55921762,
+  "onChainSupply": 617837387.0240372,
+  "genesisSupply": 1000000000,
+  "genesisMethod": "sum of 2 Transfer(0x0,...) log(s) in deploymentTxHash 0x2692184e6363fdad9400c454cdcffbc274b6827255e7f57eaa69f70fc48013c0",
+  "genesisEvidence": {
+    "txHash": "0x2692184e6363fdad9400c454cdcffbc274b6827255e7f57eaa69f70fc48013c0",
+    "mintCount": 2
+  },
+  "burnedByDifference": 382162612.97596276,
+  "burnedByLogs": 382165665.58692294,
+  "burnChecksAgree": false,
+  "burnScanIncomplete": false,
+  "sources": [
+    {
+      "source": "on-chain (ground truth)",
+      "reportedSupply": 617837387.0240372,
+      "onChainSupply": 617837387.0240372,
+      "absoluteDelta": 0,
+      "percentDelta": 0,
+      "capFdvWrong": false,
+      "method": "eth_call totalSupply() at latest block, this run",
+      "error": null
+    },
+    {
+      "source": "blockscout",
+      "reportedSupply": null,
+      "onChainSupply": 617837387.0240372,
+      "absoluteDelta": null,
+      "percentDelta": null,
+      "capFdvWrong": null,
+      "method": null,
+      "error": "HTTP 403"
+    },
+    {
+      "source": "geckoterminal",
+      "reportedSupply": 1000000000,
+      "onChainSupply": 617837387.0240372,
+      "absoluteDelta": 382162612.97596276,
+      "percentDelta": 61.85488625360488,
+      "capFdvWrong": true,
+      "method": "data.attributes.normalized_total_supply, already token-unit scaled",
+      "error": null
+    },
+    {
+      "source": "dexscreener (implied)",
+      "reportedSupply": 617930489.7314376,
+      "onChainSupply": 617837387.0240372,
+      "absoluteDelta": 93102.70740032196,
+      "percentDelta": 0.015069128116181767,
+      "capFdvWrong": true,
+      "method": "implied: marketCap / priceUsd (DexScreener reports no raw supply field)",
+      "error": null
+    }
+  ]
+}
